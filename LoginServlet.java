@@ -1,27 +1,25 @@
-package genericServlet;
+package httpservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.GenericServlet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet("/login")
-public class LoginServlet extends GenericServlet{
-
+@WebServlet("/loginhere")
+public class LoginServlet extends HttpServlet{
 	@Override
-	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-		String username=req.getParameter("uname");
-		String password=req.getParameter("pass");
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String username=req.getParameter("username");
+		String password=req.getParameter("password");
 		
 		//validate
-		if(username.equals("Akku") && password.equals("1234")) {
-			RequestDispatcher rd=req.getRequestDispatcher("Welcome");
+		if(username.equals("admin") && password.equals("admin123") || username.equals("user") && password.equals("user123")) {
+			RequestDispatcher rd=req.getRequestDispatcher("role");
 			rd.forward(req, res);
 		}
 		
@@ -30,10 +28,9 @@ public class LoginServlet extends GenericServlet{
 			PrintWriter pw=res.getWriter();
 			pw.print("INCORRECT USERNAME OR PASSWORD !!");
 			
-			RequestDispatcher rd=req.getRequestDispatcher("login.html");
-			rd.forward(req, res);				
+			RequestDispatcher rd=req.getRequestDispatcher("loginhere.html");
+			rd.include(req, res);				
 		}
 		
 	}
-
 }
